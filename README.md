@@ -10,7 +10,11 @@
 
 ## Initial Idea
 
-<!-- TODO: fill in manually — what gave you the idea for this project, and what you set out to build -->
+For Level 1, the goal was to get a real, working Compact contract deployed end-to-end on Midnight rather than just reading about the language. A counter is about as simple as a smart contract gets, but it's a good vehicle for the one concept that actually matters on Midnight: separating what's public from what's private in the same piece of state logic.
+
+The idea was to build something everyone already understands intuitively (a counter that goes up) and then ask: what would make this "privacy-preserving"? The answer was to keep the *result* public (anyone can see the count) while keeping the *input* that produced each change private (nobody can see how much any single call added). That maps directly onto Compact's `disclose()` model — `increment_by` is a private circuit parameter, and `disclose()` is the explicit, visible point where it's allowed to affect public state without ever being revealed itself.
+
+It's intentionally small in scope: no frontend, no wallet-connect flow, just a contract, a test suite proving the privacy property actually holds (not just that the math works), and a real deploy to Preview. That was enough to validate the toolchain (compiler, proof server, wallet SDK, deploy flow) before building anything more complex on top of it in later levels.
 
 ## What This Does
 

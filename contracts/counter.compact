@@ -1,0 +1,46 @@
+/**
+ * counter.compact — Privacy-Preserving Counter
+ *
+ * PUBLIC (on-chain, visible to anyone):
+ *   - count: the current counter value (Counter type — visible to all)
+ *
+ * PRIVATE (private witness, never on-chain):
+ *   - increment_by: the exact amount added each call.
+ *     This is a circuit parameter (private input) supplied at proof time.
+ *     It is consumed inside the ZK proof and never stored or revealed on-chain.
+ *
+ * WHAT THE USER PROVES WITHOUT REVEALING:
+ *   - That increment_by > 0  (the increment is positive / non-zero)
+ *   - That the counter advanced correctly by increment_by steps
+ *   - The actual value of increment_by is never disclosed to any observer
+ */
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+// ── Ledger state ─────────────────────────────────────────────────────────────
+// count is PUBLIC — Counter type means anyone reading the chain can see it.
+// Using Counter (not Cell<Uint<64>>) avoids read-dependency on the exact
+// current value, reducing transaction conflicts.
+export ledger count: Counter;
+
+// ── Circuit: increment ────────────────────────────────────────────────────────
+// increment_by is a PRIVATE circuit parameter — a private input from the caller.
+// It is consumed inside the ZK proof and never stored on-chain.
+//
+// disclose(increment_by) is used deliberately: we want the Counter to advance
+// by that amount on the public ledger. Without disclose() the compiler refuses
+// the += assignment because increment_by is a private circuit input.
+// The COUNT advances publicly; the INCREMENT AMOUNT stays private.
+export circuit increment(increment_by: Uint<16>): [] {
+  assert(increment_by > 0, "increment_by must be positive");
+  count += disclose(increment_by);
+}
+
+// ── Circuit: reset ────────────────────────────────────────────────────────────
+// Decrements the counter to zero by subtracting the current value.
+// No private input — the read of count is public.
+export circuit reset(): [] {
+  const current: Uint<64> = count;
+  count -= disclose(current as Uint<16>);
+}

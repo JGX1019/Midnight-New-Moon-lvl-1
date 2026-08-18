@@ -1,0 +1,45 @@
+{
+  "name": "midnight-counter-level1",
+  "version": "1.0.0",
+  "description": "Privacy-preserving counter contract on Midnight (Level 1 Builder Challenge)",
+  "type": "module",
+  "scripts": {
+    "compile": "compact compile contracts/counter.compact managed/counter",
+    "deploy:preprod": "npx tsx src/deploy.ts --network preprod",
+    "deploy:preview": "npx tsx src/deploy.ts --network preview",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=tests/",
+    "test:run": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=tests/ --forceExit"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/compact-runtime": "^0.16.0",
+    "@midnight-ntwrk/dapp-connector-api": "^4.0.1",
+    "@midnight-ntwrk/midnight-js-contracts": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-dapp-connector-proof-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-fetch-zk-config-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-level-private-state-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-network-id": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-node-zk-config-provider": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-protocol": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-types": "^4.1.1",
+    "@midnight-ntwrk/midnight-js-utils": "^4.1.1",
+    "@midnight-ntwrk/wallet-sdk": "^1.2.0",
+    "rxjs": "^7.8.2",
+    "semver": "^7.8.5",
+    "tsx": "^4.23.1",
+    "ws": "^8.21.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^22.0.0",
+    "@types/semver": "^7.7.1",
+    "@types/ws": "^8.18.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

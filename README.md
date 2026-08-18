@@ -72,8 +72,10 @@ npm run test:run
 
 ## Screenshots
 
+**Deployed contract address**
 ![Deployment SS](image.png)
 
+**Contract compile output**
 ![Compilation SS](image-1.png)
 
 ## Project Structure
